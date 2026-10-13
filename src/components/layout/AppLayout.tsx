@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar, { type CurrentPage } from "./Sidebar.tsx";
 import Header from "./Header.tsx";
-import { useLocation } from "react-router";
+import { Outlet, useLocation } from "react-router";
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -27,6 +27,8 @@ export default function AppLayout() {
           mobileOpen={mobileOpen}
           currentPage={currentPage}
         />
+
+        <Outlet />
       </main>
     </div>
   );
