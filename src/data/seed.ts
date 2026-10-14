@@ -6,9 +6,9 @@ export type TaskGroup = {
   tasks: Task[];
 };
 
-const tomorrow = new Date(getTodayDate());
+const today = new Date();
 
-const tomorrowDate = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, "0")}-${String(tomorrow.getDate() + 1).padStart(2, "0")}`;
+const tomorrowDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate() + 1).padStart(2, "0")}`;
 
 export const tasksSeed: Task[] = [
   {
