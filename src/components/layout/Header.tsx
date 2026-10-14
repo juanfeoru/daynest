@@ -1,4 +1,4 @@
-import { Menu, Sprout } from "lucide-react";
+import { Menu, Sprout, Plus } from "lucide-react";
 import type { CurrentPage } from "./Sidebar";
 import { NavLink } from "react-router";
 
@@ -6,6 +6,7 @@ interface HeaderProps {
   onOpen: () => void;
   mobileOpen: boolean;
   currentPage: CurrentPage;
+  onNewTask: () => void;
 }
 
 const pageContent: Record<CurrentPage, { title: string; description: string }> =
@@ -32,6 +33,7 @@ export default function Header({
   onOpen,
   mobileOpen,
   currentPage,
+  onNewTask,
 }: HeaderProps) {
   const { title, description } = pageContent[currentPage];
 
@@ -62,15 +64,25 @@ export default function Header({
           <Menu size={19} strokeWidth={1.8} />
         </button>
       </div>
+      <div className="flex flex-col gap-4 border-b border-border/70 pb-6 sm:flex-row sm:items-end sm:justify-between md:pb-7">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+            {title}
+          </h1>
 
-      <div className="border-b border-border/70 pb-6 md:pb-7">
-        <h1 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
-          {title}
-        </h1>
+          <p className="mt-2 text-sm leading-relaxed text-text-secondary sm:text-base">
+            {description}
+          </p>
+        </div>
 
-        <p className="mt-2 text-sm leading-relaxed text-text-secondary sm:text-base">
-          {description}
-        </p>
+        <button
+          type="button"
+          onClick={onNewTask}
+          className="inline-flex w-full shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90 sm:self-auto sm:w-fit"
+        >
+          <Plus size={18} />
+          Nueva tarea
+        </button>
       </div>
     </header>
   );
