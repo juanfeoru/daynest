@@ -1,73 +1,33 @@
 import { CircleCheck } from "lucide-react";
 import TaskItem from "./TaskItem";
-
-interface TaskExample {
-  id: number;
-  title: string;
-  description?: string;
-  priority: "baja" | "media" | "alta";
-  date?: string;
-  time?: string;
-  state?: "pendiente" | "completada" | "atrasada";
-}
-
-interface TaskGroup {
-  title: string;
-  tasks: TaskExample[];
-}
+import type { TaskGroup } from "../../data/seed";
+import { useTasks } from "../../hooks/useTasks";
+import { getTodayDate } from "../../utils/date";
 
 interface TaskListProps {
   title?: string;
   description?: string;
-  groups?: TaskGroup[];
   empty?: boolean;
 }
-
-const groupsExample: TaskGroup[] = [
-  {
-    title: "Hoy",
-    tasks: [
-      {
-        id: 1,
-        title: "Terminar el diseño visual",
-        description: "Revisar los componentes y sus espaciados",
-        priority: "media",
-        date: "Hoy",
-        time: "15:00",
-        state: "completada",
-      },
-      {
-        id: 2,
-        title: "Revisar la paleta de colores",
-        description: "Comprobar contraste y consistencia",
-        priority: "baja",
-        date: "Hoy",
-        state: "atrasada",
-      },
-    ],
-  },
-  {
-    title: "Próximas",
-    tasks: [
-      {
-        id: 3,
-        title: "Preparar las siguientes mejoras",
-        description: "Revisar la experiencia móvil",
-        priority: "alta",
-        date: "Mañana",
-        time: "10:00",
-        state: "pendiente",
-      },
-    ],
-  },
-];
 
 export default function TaskList({
   title,
   description,
-  groups = groupsExample,
   empty = false,
 }: TaskListProps) {
+  const { tasks } = useTasks();
+
+  const groups: TaskGroup[] = [
+    {
+      title: "Hoy",
+      tasks: tasks.filter((task) => task.date === getTodayDate()),
+    },
+    {
+      title: "Próximas",
+      tasks: tasks.filter((task) => task.date > getTodayDate()),
+    },
+  ];
+
   const totalTasks = groups.reduce(
     (total, group) => total + group.tasks.length,
     0,
@@ -137,7 +97,6 @@ export default function TaskList({
                   priority={task.priority}
                   date={task.date}
                   time={task.time}
-                  state={task.state}
                 />
               ))}
             </div>
