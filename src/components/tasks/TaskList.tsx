@@ -15,7 +15,7 @@ export default function TaskList({
   description,
   empty = false,
 }: TaskListProps) {
-  const { tasks } = useTasks();
+  const { tasks, dispatch } = useTasks();
 
   const groups: TaskGroup[] = [
     {
@@ -92,11 +92,19 @@ export default function TaskList({
               {group.tasks.map((task) => (
                 <TaskItem
                   key={task.id}
+                  id={task.id}
                   title={task.title}
                   description={task.description}
                   priority={task.priority}
                   date={task.date}
                   time={task.time}
+                  completed={task.completed}
+                  onToggle={(id) =>
+                    dispatch({
+                      type: "TOGGLE_TASK",
+                      payload: { id },
+                    })
+                  }
                 />
               ))}
             </div>
