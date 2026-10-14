@@ -1,15 +1,16 @@
 import { Calendar, Check, Ellipsis, Timer } from "lucide-react";
 
 type Priority = "baja" | "media" | "alta";
-type TaskState = "pendiente" | "completada" | "atrasada";
 
 interface TaskItemProps {
+  id: string;
   title: string;
   description?: string;
   priority?: Priority;
   date?: string;
   time?: string;
-  state?: TaskState;
+  completed: boolean;
+  onToggle: (id: string) => void;
 }
 
 const priorityStyles: Record<Priority, string> = {
@@ -19,16 +20,15 @@ const priorityStyles: Record<Priority, string> = {
 };
 
 export default function TaskItem({
+  id,
   title,
   description,
   priority = "media",
   date,
   time,
-  state = "pendiente",
+  completed,
+  onToggle,
 }: TaskItemProps) {
-  const completed = state === "completada";
-  const delayed = state === "atrasada";
-
   return (
     <article
       className={`group flex items-start gap-3 rounded-xl border bg-surface p-4 transition-colors duration-150
@@ -39,19 +39,21 @@ export default function TaskItem({
         }
       `}
     >
-      <span
-        aria-hidden="true"
-        className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px]
-          ${
-            completed
-              ? "border-primary bg-primary text-white"
-              : "border-[#B8C2B2] bg-surface"
-          }
-        `}
+      <button
+        type="button"
+        aria-label={completed ? "Marcar como pendiente" : "Completar tarea"}
+        aria-pressed={completed}
+        onClick={() => onToggle(id)}
+        className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors
+    ${
+      completed
+        ? "border-primary bg-primary text-white"
+        : "border-[#B8C2B2] bg-surface hover:border-primary"
+    }
+  `}
       >
         {completed && <Check size={12} />}
-      </span>
-
+      </button>
       <div className="min-w-0 flex-1">
         <h3
           className={`
@@ -82,12 +84,6 @@ export default function TaskItem({
               className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${priorityStyles[priority]}`}
             >
               {priority.charAt(0).toUpperCase() + priority.slice(1)}
-            </span>
-          )}
-
-          {delayed && (
-            <span className="rounded-md bg-[#F7E5DE] px-2 py-1 text-xs font-medium text-[#815747]">
-              Atrasada
             </span>
           )}
 
