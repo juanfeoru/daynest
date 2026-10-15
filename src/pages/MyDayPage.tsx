@@ -14,6 +14,7 @@ export default function MyDayPage() {
       <TaskList
         title="Mis tareas"
         description="Un paso a la vez, sin prisas."
+        filter="today"
         onEditTask={onEditTask}
       />
     </div>
