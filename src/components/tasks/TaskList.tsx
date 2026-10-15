@@ -3,17 +3,20 @@ import TaskItem from "./TaskItem";
 import type { TaskGroup } from "../../data/seed";
 import { useTasks } from "../../hooks/useTasks";
 import { getTodayDate } from "../../utils/date";
+import type { Task } from "../../types/types";
 
 interface TaskListProps {
   title?: string;
   description?: string;
   empty?: boolean;
+  onEditTask: (task: Task) => void;
 }
 
 export default function TaskList({
   title,
   description,
   empty = false,
+  onEditTask,
 }: TaskListProps) {
   const { tasks, dispatch } = useTasks();
 
@@ -32,6 +35,13 @@ export default function TaskList({
     (total, group) => total + group.tasks.length,
     0,
   );
+
+  function handleDeleteTask(id: string) {
+    dispatch({
+      type: "DELETE_TASK",
+      payload: { id },
+    });
+  }
 
   if (empty || totalTasks === 0) {
     return (
@@ -105,6 +115,8 @@ export default function TaskList({
                       payload: { id },
                     })
                   }
+                  onEdit={() => onEditTask(task)}
+                  onDelete={() => handleDeleteTask(task.id)}
                 />
               ))}
             </div>
