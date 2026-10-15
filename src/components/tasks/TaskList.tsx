@@ -2,13 +2,20 @@ import { CircleCheck } from "lucide-react";
 import TaskItem from "./TaskItem";
 import type { TaskGroup } from "../../data/seed";
 import { useTasks } from "../../hooks/useTasks";
-import { getTodayDate } from "../../utils/date";
+import {
+  formatTaskGroupDate,
+  getTodayDate,
+  getTomorrowDate,
+} from "../../utils/date";
 import type { Task } from "../../types/types";
+
+type TaskFilter = "today" | "upcoming" | "all";
 
 interface TaskListProps {
   title?: string;
   description?: string;
   empty?: boolean;
+  filter: TaskFilter;
   onEditTask: (task: Task) => void;
 }
 
@@ -16,20 +23,48 @@ export default function TaskList({
   title,
   description,
   empty = false,
+  filter,
   onEditTask,
 }: TaskListProps) {
   const { tasks, dispatch } = useTasks();
 
-  const groups: TaskGroup[] = [
-    {
-      title: "Hoy",
-      tasks: tasks.filter((task) => task.date === getTodayDate()),
-    },
-    {
-      title: "Próximas",
-      tasks: tasks.filter((task) => task.date > getTodayDate()),
-    },
-  ];
+  const today = getTodayDate();
+
+  const visibleTasks = tasks.filter((task) => {
+    if (task.completed) return false;
+
+    if (filter === "today") {
+      return task.date === today;
+    }
+
+    if (filter === "upcoming") {
+      return task.date > today;
+    }
+
+    return true;
+  });
+
+  const groups: TaskGroup[] =
+    filter === "upcoming"
+      ? [...new Set(visibleTasks.map((task) => task.date))]
+          .sort()
+          .map((date) => ({
+            title:
+              date === getTomorrowDate() ? "Mañana" : formatTaskGroupDate(date),
+            tasks: visibleTasks.filter((task) => task.date === date),
+          }))
+      : filter === "today"
+        ? [{ title: "Hoy", tasks: visibleTasks }]
+        : [
+            {
+              title: "Hoy",
+              tasks: visibleTasks.filter((task) => task.date === today),
+            },
+            {
+              title: "Próximas",
+              tasks: visibleTasks.filter((task) => task.date > today),
+            },
+          ];
 
   const totalTasks = groups.reduce(
     (total, group) => total + group.tasks.length,
