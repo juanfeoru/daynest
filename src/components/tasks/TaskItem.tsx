@@ -1,4 +1,5 @@
-import { Calendar, Check, Ellipsis, Timer } from "lucide-react";
+import { Calendar, Check, Ellipsis, Pencil, Timer, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 type Priority = "baja" | "media" | "alta";
 
@@ -11,6 +12,8 @@ interface TaskItemProps {
   time?: string;
   completed: boolean;
   onToggle: (id: string) => void;
+  onEdit: () => void;
+  onDelete: (id: string) => void;
 }
 
 const priorityStyles: Record<Priority, string> = {
@@ -28,7 +31,11 @@ export default function TaskItem({
   time,
   completed,
   onToggle,
+  onEdit,
+  onDelete,
 }: TaskItemProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <article
       className={`group flex items-start gap-3 rounded-xl border bg-surface p-4 transition-colors duration-150
@@ -103,13 +110,51 @@ export default function TaskItem({
         </div>
       </div>
 
-      <button
-        type="button"
-        aria-label="Más opciones"
-        className="flex size-8 shrink-0 items-center justify-center rounded-lg text-text-secondary opacity-100 transition-colors hover:bg-background hover:text-text-primary sm:opacity-0 sm:group-hover:opacity-100"
-      >
-        <Ellipsis size={14} />
-      </button>
+      <div className="relative shrink-0">
+        <button
+          type="button"
+          aria-label="Más opciones"
+          aria-haspopup="menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+          className="flex size-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background hover:text-text-primary"
+        >
+          <Ellipsis size={16} />
+        </button>
+
+        {menuOpen && (
+          <div
+            role="menu"
+            className="absolute right-0 top-full z-20 mt-1 w-44 rounded-xl border border-border bg-surface p-1.5 shadow-lg"
+          >
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setMenuOpen(false);
+                onEdit();
+              }}
+              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-text-primary transition-colors hover:bg-background"
+            >
+              <Pencil size={15} />
+              Editar tarea
+            </button>
+
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setMenuOpen(false);
+                onDelete(id);
+              }}
+              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-red-500 transition-colors hover:bg-red-500/10"
+            >
+              <Trash2 size={15} />
+              Eliminar tarea
+            </button>
+          </div>
+        )}
+      </div>
     </article>
   );
 }
