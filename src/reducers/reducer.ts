@@ -26,15 +26,14 @@ export function tasksReducer(state: Task[], action: TaskAction): Task[] {
     case "UPDATE_TASK": {
       const { id, ...changes } = action.payload;
 
-      return state.map((s) => {
-        if (s.id === id) {
-          return {
-            ...s,
-            ...changes,
-          };
-        }
+      return state.map((task) => {
+        if (task.id !== id) return task;
 
-        return s;
+        return {
+          ...task,
+          ...changes,
+          updatedAt: new Date().toISOString(),
+        };
       });
     }
 
