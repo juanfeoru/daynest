@@ -1,12 +1,17 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import TaskForm from "./TaskForm";
+import type { Task } from "../../types/types";
 
 interface TaskFormModalProps {
+  taskToEdit: Task | undefined;
   onClose: () => void;
 }
 
-export default function TaskFormModal({ onClose }: TaskFormModalProps) {
+export default function TaskFormModal({
+  onClose,
+  taskToEdit,
+}: TaskFormModalProps) {
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -42,7 +47,7 @@ export default function TaskFormModal({ onClose }: TaskFormModalProps) {
               id="task-modal-title"
               className="text-xl font-bold text-text-primary"
             >
-              Nueva tarea
+              {taskToEdit ? "Editar tarea" : "Nueva tarea"}
             </h2>
 
             <p className="mt-1 text-sm text-text-secondary">
@@ -60,7 +65,7 @@ export default function TaskFormModal({ onClose }: TaskFormModalProps) {
           </button>
         </div>
 
-        <TaskForm onClose={onClose} />
+        <TaskForm onClose={onClose} taskToEdit={taskToEdit} />
       </section>
     </div>
   );
