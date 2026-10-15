@@ -5,18 +5,27 @@ import { getTodayDate } from "../../utils/date";
 
 interface TaskFormProps {
   onClose: () => void;
+  taskToEdit: Task | undefined;
 }
 
 type Priority = Task["priority"];
 
-export default function TaskForm({ onClose }: TaskFormProps) {
+export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
   const { dispatch } = useTasks();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(() => getTodayDate());
-  const [time, setTime] = useState("");
-  const [priority, setPriority] = useState<Priority>("media");
+  const [title, setTitle] = useState(() => taskToEdit?.title ?? "");
+
+  const [description, setDescription] = useState(
+    () => taskToEdit?.description ?? "",
+  );
+
+  const [date, setDate] = useState(() => taskToEdit?.date ?? getTodayDate());
+
+  const [time, setTime] = useState(() => taskToEdit?.time ?? "");
+
+  const [priority, setPriority] = useState<Priority>(
+    () => taskToEdit?.priority ?? "media",
+  );
   const [error, setError] = useState({
     title: "",
     date: "",
@@ -40,27 +49,41 @@ export default function TaskForm({ onClose }: TaskFormProps) {
 
     const now = new Date().toISOString();
 
-    const newTask: Task = {
-      id: crypto.randomUUID(),
-      title: trimmedTitle,
-      description: description.trim() || undefined,
-      date,
-      time: time || undefined,
-      priority,
-      listId: "inbox",
-      completed: false,
-      createdAt: now,
-      updatedAt: now,
-    };
+    if (taskToEdit) {
+      dispatch({
+        type: "UPDATE_TASK",
+        payload: {
+          id: taskToEdit.id,
+          title: trimmedTitle,
+          description: description.trim() || undefined,
+          date,
+          time: time || undefined,
+          priority,
+          updatedAt: now,
+        },
+      });
+    } else {
+      const newTask: Task = {
+        id: crypto.randomUUID(),
+        title: trimmedTitle,
+        description: description.trim() || undefined,
+        date,
+        time: time || undefined,
+        priority,
+        listId: "inbox",
+        completed: false,
+        createdAt: now,
+        updatedAt: now,
+      };
 
-    dispatch({
-      type: "ADD_TASK",
-      payload: newTask,
-    });
+      dispatch({
+        type: "ADD_TASK",
+        payload: newTask,
+      });
+    }
 
     onClose();
   }
-
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-5 ">
       <div>
@@ -210,7 +233,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
           type="submit"
           className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
         >
-          Crear tarea
+          {taskToEdit ? "Guardar cambios" : "Crear tarea"}
         </button>
       </div>
     </form>
