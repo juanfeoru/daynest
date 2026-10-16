@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router";
 import { TasksProvider } from "./context/TasksProvider.tsx";
+import { ListsProvider } from "./context/ListsProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <TasksProvider>
-        <App />
+        <ListsProvider>
+          <App />
+        </ListsProvider>
       </TasksProvider>
     </BrowserRouter>
   </StrictMode>,
