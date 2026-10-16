@@ -27,6 +27,18 @@ const pageContent: Record<CurrentPage, { title: string; description: string }> =
       title: "Mira lo lejos que has llegado.",
       description: "Cada pequeño paso también cuenta.",
     },
+    "/personal": {
+      title: "Tu espacio personal.",
+      description: "Tus tareas y objetivos personales.",
+    },
+    "/work": {
+      title: "Avanza en tu trabajo.",
+      description: "Organiza lo que tienes por delante.",
+    },
+    "/ideas": {
+      title: "Un espacio para tus ideas.",
+      description: "Guarda esas ideas que quieres desarrollar.",
+    },
   };
 
 export default function Header({
