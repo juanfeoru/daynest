@@ -117,7 +117,7 @@ export default function TaskItem({
           aria-haspopup="menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
-          className="flex size-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background hover:text-text-primary"
+          className="flex size-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background hover:text-text-primary md:opacity-0 md:group-hover:opacity-100"
         >
           <Ellipsis size={16} />
         </button>
