@@ -9,7 +9,7 @@ import {
 } from "../../utils/date";
 import type { Task } from "../../types/types";
 
-type TaskFilter = "today" | "upcoming" | "all";
+type TaskFilter = "today" | "upcoming" | "all" | "completed";
 
 interface TaskListProps {
   title?: string;
@@ -31,7 +31,17 @@ export default function TaskList({
   const today = getTodayDate();
 
   const visibleTasks = tasks.filter((task) => {
-    if (task.completed) return false;
+    if (filter === "completed") {
+      return task.completed;
+    }
+
+    if (filter === "all" && !task.completed) {
+      return true;
+    }
+
+    if (task.completed) {
+      return false;
+    }
 
     if (filter === "today") {
       return task.date === today;
@@ -41,7 +51,7 @@ export default function TaskList({
       return task.date > today;
     }
 
-    return true;
+    return false;
   });
 
   const groups: TaskGroup[] =
