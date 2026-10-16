@@ -3,6 +3,7 @@ import AppLayout from "./components/layout/AppLayout";
 import MyDayPage from "./pages/MyDayPage";
 import UpcomingPage from "./pages/UpcomingPage";
 import AllTasks from "./pages/AllTasks";
+import CompletedPage from "./pages/CompletedPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<MyDayPage />} />
         <Route path="/upcoming" element={<UpcomingPage />} />)
         <Route path="/all-tasks" element={<AllTasks />} />
+        <Route path="/completed" element={<CompletedPage />} />
       </Route>
     </Routes>
   );
