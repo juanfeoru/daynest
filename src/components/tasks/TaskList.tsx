@@ -9,13 +9,14 @@ import {
 } from "../../utils/date";
 import type { Task } from "../../types/types";
 
-type TaskFilter = "today" | "upcoming" | "all" | "completed";
+type TaskFilter = "today" | "upcoming" | "all" | "completed" | "list";
 
 interface TaskListProps {
   title?: string;
   description?: string;
   empty?: boolean;
   filter: TaskFilter;
+  listId?: string;
   onEditTask: (task: Task) => void;
 }
 
@@ -24,6 +25,7 @@ export default function TaskList({
   description,
   empty = false,
   filter,
+  listId,
   onEditTask,
 }: TaskListProps) {
   const { tasks, dispatch } = useTasks();
@@ -33,6 +35,10 @@ export default function TaskList({
   const visibleTasks = tasks.filter((task) => {
     if (filter === "completed") {
       return task.completed;
+    }
+
+    if (filter === "list") {
+      return task.listId === listId && !task.completed;
     }
 
     if (filter === "all" && !task.completed) {
@@ -65,16 +71,18 @@ export default function TaskList({
           }))
       : filter === "today"
         ? [{ title: "Hoy", tasks: visibleTasks }]
-        : [
-            {
-              title: "Hoy",
-              tasks: visibleTasks.filter((task) => task.date === today),
-            },
-            {
-              title: "Próximas",
-              tasks: visibleTasks.filter((task) => task.date > today),
-            },
-          ];
+        : filter === "list"
+          ? [{ title: "Tareas", tasks: visibleTasks }]
+          : [
+              {
+                title: "Hoy",
+                tasks: visibleTasks.filter((task) => task.date === today),
+              },
+              {
+                title: "Próximas",
+                tasks: visibleTasks.filter((task) => task.date > today),
+              },
+            ];
 
   const totalTasks = groups.reduce(
     (total, group) => total + group.tasks.length,
