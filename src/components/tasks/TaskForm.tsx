@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTasks } from "../../hooks/useTasks";
 import type { Task } from "../../types/types";
 import { getTodayDate } from "../../utils/date";
+import { useLists } from "../../hooks/useLists";
 
 interface TaskFormProps {
   onClose: () => void;
@@ -12,6 +13,7 @@ type Priority = Task["priority"];
 
 export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
   const { dispatch } = useTasks();
+  const { lists } = useLists();
 
   const [title, setTitle] = useState(() => taskToEdit?.title ?? "");
 
@@ -30,6 +32,10 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
     title: "",
     date: "",
   });
+
+  const [listId, setListId] = useState(
+    () => taskToEdit?.listId ?? lists[0]?.id ?? "",
+  );
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,6 +64,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
           description: description.trim() || undefined,
           date,
           time: time || undefined,
+          listId,
           priority,
           updatedAt: now,
         },
@@ -70,7 +77,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
         date,
         time: time || undefined,
         priority,
-        listId: "inbox",
+        listId,
         completed: false,
         createdAt: now,
         updatedAt: now,
@@ -138,6 +145,34 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
           placeholder="Añade algún detalle..."
           className="w-full resize-y rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-text-primary outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
         />
+      </div>
+
+      <div>
+        <label
+          htmlFor="task-list"
+          className="mb-1.5 block text-sm font-medium text-text-primary"
+        >
+          Lista
+        </label>
+
+        <select
+          id="task-list"
+          name="listId"
+          value={listId}
+          onChange={(event) => setListId(event.target.value)}
+          required
+          className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-text-primary outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+        >
+          {lists.length === 0 && (
+            <option value="">No hay listas disponibles</option>
+          )}
+
+          {lists.map((list) => (
+            <option key={list.id} value={list.id}>
+              {list.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
