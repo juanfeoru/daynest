@@ -3,12 +3,16 @@ import Sidebar, { type CurrentPage } from "./Sidebar.tsx";
 import Header from "./Header.tsx";
 import { Outlet, useLocation } from "react-router";
 import TaskFormModal from "../tasks/TaskFormModal.tsx";
-import type { Task } from "../../types/types.ts";
+import type { CustomList, Task } from "../../types/types.ts";
+import ListFormModal from "../lists/ListFormModal.tsx";
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
+  const [isListFormOpen, setIsListFormOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | undefined>();
+  const [listToEdit, setListToEdit] = useState<CustomList | undefined>();
+
   const { pathname } = useLocation();
 
   const currentPage: CurrentPage =
@@ -45,11 +49,28 @@ export default function AppLayout() {
     setTaskToEdit(undefined);
   }
 
+  function handleNewList() {
+    setListToEdit(undefined);
+    setIsListFormOpen(true);
+  }
+
+  function handleEditList(list: CustomList) {
+    setListToEdit(list);
+    setIsListFormOpen(true);
+  }
+
+  function handleCloseListModal() {
+    setListToEdit(undefined);
+    setIsListFormOpen(false);
+  }
+
   return (
     <div className="min-h-screen bg-background md:flex">
       <Sidebar
         mobileOpen={mobileOpen}
         onMobileClose={() => setMobileOpen(false)}
+        onCreateList={handleNewList}
+        onEditList={handleEditList}
       />
 
       <main className="min-w-0 flex-1 p-5 md:p-10">
@@ -65,6 +86,10 @@ export default function AppLayout() {
 
       {isTaskFormOpen && (
         <TaskFormModal taskToEdit={taskToEdit} onClose={handleCloseModal} />
+      )}
+
+      {isListFormOpen && (
+        <ListFormModal listToEdit={listToEdit} onClose={handleCloseListModal} />
       )}
     </div>
   );
