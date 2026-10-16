@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Sprout,
   Sun,
@@ -9,15 +9,28 @@ import {
   X,
   Lightbulb,
   type LucideIcon,
+  Pencil,
+  Trash2,
+  Ellipsis,
 } from "lucide-react";
 import { NavLink } from "react-router";
+import { useLists } from "../../hooks/useLists";
+import type { CustomList } from "../../types/types";
 
-export type CurrentPage = "/" | "/upcoming" | "/all-tasks" | "/completed";
+export type CurrentPage =
+  | "/"
+  | "/upcoming"
+  | "/all-tasks"
+  | "/completed"
+  | "/personal"
+  | "/work"
+  | "/ideas";
 
 interface SidebarProps {
   mobileOpen: boolean;
   onMobileClose: () => void;
   onCreateList?: () => void;
+  onEditList: (list: CustomList) => void;
 }
 
 interface NavItem {
@@ -33,17 +46,16 @@ const navigationItems: NavItem[] = [
   { to: "/completed", label: "Completadas", icon: CheckCircle2 },
 ];
 
-const personalLists = [
-  { to: "personal", label: "Personal", color: "bg-[#E9BBA8]" },
-  { to: "work", label: "Trabajo", color: "bg-[#A8B9D3]" },
-  { to: "ideas", label: "Ideas", color: "bg-[#F0DFA7]" },
-];
-
 export default function Sidebar({
   mobileOpen,
   onMobileClose,
   onCreateList,
+  onEditList,
 }: SidebarProps) {
+  const { lists, dispatchLists } = useLists();
+
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
   useEffect(() => {
     if (!mobileOpen) return;
 
@@ -65,13 +77,20 @@ export default function Sidebar({
   };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-150 ${
+    `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-150 min-w-0 flex-1 ${
       isActive
         ? "bg-sage-light text-[#3D5739]"
         : "text-[#686B63] hover:bg-[#F0EEE7] hover:text-text-primary"
     }
 
     `;
+
+  function handleDeleteList(id: string) {
+    dispatchLists({
+      type: "DELETE_LIST",
+      payload: { id },
+    });
+  }
 
   return (
     <>
@@ -155,22 +174,72 @@ export default function Sidebar({
               <Plus size={16} />
             </button>
           </div>
-
           <div className="flex flex-col gap-1">
-            {personalLists.map((list) => (
-              <button
-                key={list.to}
-                type="button"
-                onClick={() => {
-                  onMobileClose();
-                }}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[#686B63] transition-colors hover:bg-[#F0EEE7] hover:text-text-primary"
-              >
-                <span
-                  className={`h-2.5 w-2.5 shrink-0 rounded-full ${list.color}`}
-                />
-                <span>{list.label}</span>
-              </button>
+            {lists.map((list) => (
+              <div key={list.id} className="group flex items-center gap-1">
+                <NavLink
+                  to={`/lists/${list.id}`}
+                  onClick={handleNavigate}
+                  className={navLinkClass}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="block size-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: list.color }}
+                  />
+                  <span className="min-w-0 truncate">{list.name}</span>
+                </NavLink>
+
+                <div className="relative shrink-0">
+                  <button
+                    type="button"
+                    aria-label={`Opciones de ${list.name}`}
+                    aria-haspopup="menu"
+                    aria-expanded={openMenuId === list.id}
+                    onClick={() =>
+                      setOpenMenuId((currentId) =>
+                        currentId === list.id ? null : list.id,
+                      )
+                    }
+                    className="flex size-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background hover:text-text-primary md:opacity-0 md:group-hover:opacity-100 "
+                  >
+                    <Ellipsis size={16} />
+                  </button>
+
+                  {openMenuId === list.id && (
+                    <div
+                      role="menu"
+                      className="absolute right-0 top-full z-20 mt-1 w-44 rounded-xl border border-border bg-surface p-1.5 shadow-lg"
+                    >
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                          setOpenMenuId(null);
+                          onEditList(list);
+                        }}
+                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-text-primary transition-colors hover:bg-background"
+                      >
+                        <Pencil size={15} />
+                        Editar lista
+                      </button>
+
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                          setOpenMenuId(null);
+                          handleDeleteList(list.id);
+                        }}
+                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-red-500 transition-colors hover:bg-red-500/10"
+                      >
+                        <Trash2 size={15} />
+                        Eliminar lista
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         </section>
