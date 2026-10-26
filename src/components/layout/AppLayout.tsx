@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import Sidebar, { type CurrentPage } from "./Sidebar.tsx";
-import Header from "./Header.tsx";
-import { Outlet, useLocation } from "react-router";
-import TaskFormModal from "../tasks/TaskFormModal.tsx";
-import type { CustomList, Task } from "../../types/types.ts";
-import ListFormModal from "../lists/ListFormModal.tsx";
+import { useEffect, useState } from 'react';
+import Sidebar, { type CurrentPage } from './Sidebar.tsx';
+import Header from './Header.tsx';
+import { Outlet, useLocation } from 'react-router';
+import TaskFormModal from '../tasks/TaskFormModal.tsx';
+import type { CustomList, Task } from '../../types/types.ts';
+import ListFormModal from '../lists/ListFormModal.tsx';
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,21 +16,21 @@ export default function AppLayout() {
   const { pathname } = useLocation();
 
   const currentPage: CurrentPage =
-    pathname === "/upcoming" ||
-    pathname === "/all-tasks" ||
-    pathname === "/completed"
+    pathname === '/upcoming' ||
+    pathname === '/all-tasks' ||
+    pathname === '/completed'
       ? pathname
-      : "/";
+      : '/';
 
   useEffect(() => {
     if (isTaskFormOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     };
   }, [isTaskFormOpen]);
 

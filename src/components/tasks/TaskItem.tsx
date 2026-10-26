@@ -1,7 +1,7 @@
-import { Calendar, Check, Ellipsis, Pencil, Timer, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { Calendar, Check, Ellipsis, Pencil, Timer, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
-type Priority = "baja" | "media" | "alta";
+type Priority = 'baja' | 'media' | 'alta';
 
 interface TaskItemProps {
   id: string;
@@ -17,16 +17,16 @@ interface TaskItemProps {
 }
 
 const priorityStyles: Record<Priority, string> = {
-  baja: "bg-sage-light text-[#496348]",
-  media: "bg-butter text-[#66562B]",
-  alta: "bg-[#F7E5DE] text-[#815747]",
+  baja: 'bg-sage-light text-[#496348]',
+  media: 'bg-butter text-[#66562B]',
+  alta: 'bg-[#F7E5DE] text-[#815747]',
 };
 
 export default function TaskItem({
   id,
   title,
   description,
-  priority = "media",
+  priority = 'media',
   date,
   time,
   completed,
@@ -41,21 +41,21 @@ export default function TaskItem({
       className={`group flex items-start gap-3 rounded-xl border bg-surface p-4 transition-colors duration-150
         ${
           completed
-            ? "border-border/70"
-            : "border-border hover:border-primary/40"
+            ? 'border-border/70'
+            : 'border-border hover:border-primary/40'
         }
       `}
     >
       <button
         type="button"
-        aria-label={completed ? "Marcar como pendiente" : "Completar tarea"}
+        aria-label={completed ? 'Marcar como pendiente' : 'Completar tarea'}
         aria-pressed={completed}
         onClick={() => onToggle(id)}
         className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors
     ${
       completed
-        ? "border-primary bg-primary text-white"
-        : "border-[#B8C2B2] bg-surface hover:border-primary"
+        ? 'border-primary bg-primary text-white'
+        : 'border-[#B8C2B2] bg-surface hover:border-primary'
     }
   `}
       >
@@ -67,8 +67,8 @@ export default function TaskItem({
            wrap-break-word text-sm font-medium leading-5
             ${
               completed
-                ? "text-text-secondary line-through"
-                : "text-text-primary"
+                ? 'text-text-secondary line-through'
+                : 'text-text-primary'
             }
           `}
         >
@@ -83,7 +83,7 @@ export default function TaskItem({
 
         <div
           className={`mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 ${
-            completed ? "opacity-60" : ""
+            completed ? 'opacity-60' : ''
           }`}
         >
           {priority && (

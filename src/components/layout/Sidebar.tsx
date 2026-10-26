@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Sprout,
   Sun,
@@ -12,19 +12,19 @@ import {
   Pencil,
   Trash2,
   Ellipsis,
-} from "lucide-react";
-import { NavLink } from "react-router";
-import { useLists } from "../../hooks/useLists";
-import type { CustomList } from "../../types/types";
+} from 'lucide-react';
+import { NavLink } from 'react-router';
+import { useLists } from '../../hooks/useLists';
+import type { CustomList } from '../../types/types';
 
 export type CurrentPage =
-  | "/"
-  | "/upcoming"
-  | "/all-tasks"
-  | "/completed"
-  | "/personal"
-  | "/work"
-  | "/ideas";
+  | '/'
+  | '/upcoming'
+  | '/all-tasks'
+  | '/completed'
+  | '/personal'
+  | '/work'
+  | '/ideas';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -40,10 +40,10 @@ interface NavItem {
 }
 
 const navigationItems: NavItem[] = [
-  { to: "/", label: "Mi día", icon: Sun },
-  { to: "/upcoming", label: "Próximo", icon: CalendarDays },
-  { to: "/all-tasks", label: "Todas las tareas", icon: ListTodo },
-  { to: "/completed", label: "Completadas", icon: CheckCircle2 },
+  { to: '/', label: 'Mi día', icon: Sun },
+  { to: '/upcoming', label: 'Próximo', icon: CalendarDays },
+  { to: '/all-tasks', label: 'Todas las tareas', icon: ListTodo },
+  { to: '/completed', label: 'Completadas', icon: CheckCircle2 },
 ];
 
 export default function Sidebar({
@@ -60,15 +60,15 @@ export default function Sidebar({
     if (!mobileOpen) return;
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         onMobileClose();
       }
     };
 
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener('keydown', handleEscape);
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [mobileOpen, onMobileClose]);
 
@@ -79,15 +79,15 @@ export default function Sidebar({
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-150 min-w-0 flex-1 ${
       isActive
-        ? "bg-sage-light text-[#3D5739]"
-        : "text-[#686B63] hover:bg-[#F0EEE7] hover:text-text-primary"
+        ? 'bg-sage-light text-[#3D5739]'
+        : 'text-[#686B63] hover:bg-[#F0EEE7] hover:text-text-primary'
     }
 
     `;
 
   function handleDeleteList(id: string) {
     dispatchLists({
-      type: "DELETE_LIST",
+      type: 'DELETE_LIST',
       payload: { id },
     });
   }
@@ -101,8 +101,8 @@ export default function Sidebar({
           transition-opacity duration-300 md:hidden
           ${
             mobileOpen
-              ? "visible opacity-100"
-              : "invisible opacity-0 pointer-events-none"
+              ? 'visible opacity-100'
+              : 'invisible opacity-0 pointer-events-none'
           }`}
       />
 
@@ -112,7 +112,7 @@ export default function Sidebar({
         aria-modal={mobileOpen ? true : undefined}
         className={`
           fixed inset-y-0 left-0 z-50 flex h-dvh w-64 overflow-y-auto overscroll-y-contain sidebar-scrollbar flex-col border-r border-border bg-background px-4 py-5 transition-transform duration-300 ease-in-out md:sticky md:top-0 md:z-auto md:h-screen md:translate-x-0
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
         <div className="mb-9 flex items-center justify-between px-2">

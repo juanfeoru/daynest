@@ -1,6 +1,6 @@
-import { Menu, Sprout, Plus } from "lucide-react";
-import type { CurrentPage } from "./Sidebar";
-import { NavLink } from "react-router";
+import { Menu, Sprout, Plus } from 'lucide-react';
+import type { CurrentPage } from './Sidebar';
+import { NavLink } from 'react-router';
 
 interface HeaderProps {
   onOpen: () => void;
@@ -11,33 +11,33 @@ interface HeaderProps {
 
 const pageContent: Record<CurrentPage, { title: string; description: string }> =
   {
-    "/": {
-      title: "Haz que hoy cuente.",
-      description: "Un pequeño progreso sigue siendo progreso.",
+    '/': {
+      title: 'Haz que hoy cuente.',
+      description: 'Un pequeño progreso sigue siendo progreso.',
     },
-    "/upcoming": {
-      title: "Lo que viene.",
-      description: "Organiza con calma lo que tienes por delante.",
+    '/upcoming': {
+      title: 'Lo que viene.',
+      description: 'Organiza con calma lo que tienes por delante.',
     },
-    "/all-tasks": {
-      title: "Todas tus tareas.",
-      description: "Todo lo que tienes pendiente, en un solo lugar.",
+    '/all-tasks': {
+      title: 'Todas tus tareas.',
+      description: 'Todo lo que tienes pendiente, en un solo lugar.',
     },
-    "/completed": {
-      title: "Mira lo lejos que has llegado.",
-      description: "Cada pequeño paso también cuenta.",
+    '/completed': {
+      title: 'Mira lo lejos que has llegado.',
+      description: 'Cada pequeño paso también cuenta.',
     },
-    "/personal": {
-      title: "Tu espacio personal.",
-      description: "Tus tareas y objetivos personales.",
+    '/personal': {
+      title: 'Tu espacio personal.',
+      description: 'Tus tareas y objetivos personales.',
     },
-    "/work": {
-      title: "Avanza en tu trabajo.",
-      description: "Organiza lo que tienes por delante.",
+    '/work': {
+      title: 'Avanza en tu trabajo.',
+      description: 'Organiza lo que tienes por delante.',
     },
-    "/ideas": {
-      title: "Un espacio para tus ideas.",
-      description: "Guarda esas ideas que quieres desarrollar.",
+    '/ideas': {
+      title: 'Un espacio para tus ideas.',
+      description: 'Guarda esas ideas que quieres desarrollar.',
     },
   };
 

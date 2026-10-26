@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-background: #faf8f3;
@@ -55,7 +55,7 @@ html::-webkit-scrollbar-corner {
 body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 button {

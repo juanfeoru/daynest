@@ -44,12 +44,12 @@ Abre el navegador en la dirección que muestre la terminal (por defecto `http://
 
 ## 📜 Scripts disponibles
 
-| Comando         | Descripción                                        |
-| --------------- | -------------------------------------------------- |
-| `pnpm dev`      | Inicia el servidor de desarrollo                    |
-| `pnpm build`    | Compila TypeScript y genera el build de producción  |
-| `pnpm preview`  | Previsualiza el build de producción                 |
-| `pnpm lint`     | Ejecuta ESLint sobre el proyecto                    |
+| Comando        | Descripción                                        |
+| -------------- | -------------------------------------------------- |
+| `pnpm dev`     | Inicia el servidor de desarrollo                   |
+| `pnpm build`   | Compila TypeScript y genera el build de producción |
+| `pnpm preview` | Previsualiza el build de producción                |
+| `pnpm lint`    | Ejecuta ESLint sobre el proyecto                   |
 
 ## 📁 Estructura del proyecto
 

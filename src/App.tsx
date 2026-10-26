@@ -1,10 +1,10 @@
-import { Route, Routes } from "react-router";
-import AppLayout from "./components/layout/AppLayout";
-import MyDayPage from "./pages/MyDayPage";
-import UpcomingPage from "./pages/UpcomingPage";
-import AllTasks from "./pages/AllTasks";
-import CompletedPage from "./pages/CompletedPage";
-import ListPage from "./pages/ListPage";
+import { Route, Routes } from 'react-router';
+import AppLayout from './components/layout/AppLayout';
+import MyDayPage from './pages/MyDayPage';
+import UpcomingPage from './pages/UpcomingPage';
+import AllTasks from './pages/AllTasks';
+import CompletedPage from './pages/CompletedPage';
+import ListPage from './pages/ListPage';
 
 function App() {
   return (

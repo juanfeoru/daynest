@@ -1,40 +1,40 @@
-import { useState } from "react";
-import { useTasks } from "../../hooks/useTasks";
-import type { Task } from "../../types/types";
-import { getTodayDate } from "../../utils/date";
-import { useLists } from "../../hooks/useLists";
+import { useState } from 'react';
+import { useTasks } from '../../hooks/useTasks';
+import type { Task } from '../../types/types';
+import { getTodayDate } from '../../utils/date';
+import { useLists } from '../../hooks/useLists';
 
 interface TaskFormProps {
   onClose: () => void;
   taskToEdit: Task | undefined;
 }
 
-type Priority = Task["priority"];
+type Priority = Task['priority'];
 
 export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
   const { dispatch } = useTasks();
   const { lists } = useLists();
 
-  const [title, setTitle] = useState(() => taskToEdit?.title ?? "");
+  const [title, setTitle] = useState(() => taskToEdit?.title ?? '');
 
   const [description, setDescription] = useState(
-    () => taskToEdit?.description ?? "",
+    () => taskToEdit?.description ?? '',
   );
 
   const [date, setDate] = useState(() => taskToEdit?.date ?? getTodayDate());
 
-  const [time, setTime] = useState(() => taskToEdit?.time ?? "");
+  const [time, setTime] = useState(() => taskToEdit?.time ?? '');
 
   const [priority, setPriority] = useState<Priority>(
-    () => taskToEdit?.priority ?? "media",
+    () => taskToEdit?.priority ?? 'media',
   );
   const [error, setError] = useState({
-    title: "",
-    date: "",
+    title: '',
+    date: '',
   });
 
   const [listId, setListId] = useState(
-    () => taskToEdit?.listId ?? lists[0]?.id ?? "",
+    () => taskToEdit?.listId ?? lists[0]?.id ?? '',
   );
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
@@ -43,8 +43,8 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
     const trimmedTitle = title.trim();
 
     const nextErrors = {
-      title: trimmedTitle ? "" : "Escribe un título para la tarea.",
-      date: date ? "" : "Selecciona una fecha.",
+      title: trimmedTitle ? '' : 'Escribe un título para la tarea.',
+      date: date ? '' : 'Selecciona una fecha.',
     };
 
     setError(nextErrors);
@@ -57,7 +57,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
 
     if (taskToEdit) {
       dispatch({
-        type: "UPDATE_TASK",
+        type: 'UPDATE_TASK',
         payload: {
           id: taskToEdit.id,
           title: trimmedTitle,
@@ -84,7 +84,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
       };
 
       dispatch({
-        type: "ADD_TASK",
+        type: 'ADD_TASK',
         payload: newTask,
       });
     }
@@ -112,7 +112,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
             setTitle(event.target.value);
             setError((prev) => ({
               ...prev,
-              title: "",
+              title: '',
             }));
           }}
           placeholder="¿Qué necesitas hacer?"
@@ -131,7 +131,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
           htmlFor="task-description"
           className="mb-1.5 block text-sm font-medium text-text-primary"
         >
-          Descripción{" "}
+          Descripción{' '}
           <span className="font-normal text-text-secondary">(opcional)</span>
         </label>
 
@@ -193,7 +193,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
               setDate(event.target.value);
               setError((prev) => ({
                 ...prev,
-                date: "",
+                date: '',
               }));
             }}
             className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-text-primary outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
@@ -211,7 +211,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
             htmlFor="task-time"
             className="mb-1.5 block text-sm font-medium text-text-primary"
           >
-            Hora{" "}
+            Hora{' '}
             <span className="font-normal text-text-secondary">(opcional)</span>
           </label>
 
@@ -232,13 +232,13 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
         </legend>
 
         <div className="grid grid-cols-3 gap-2">
-          {(["baja", "media", "alta"] as const).map((option) => (
+          {(['baja', 'media', 'alta'] as const).map((option) => (
             <label
               key={option}
               className={`flex cursor-pointer items-center justify-center rounded-xl border px-3 py-2.5 text-sm font-medium capitalize transition ${
                 priority === option
-                  ? "border-primary bg-sage-light text-primary"
-                  : "border-border bg-background text-text-secondary hover:border-primary/40"
+                  ? 'border-primary bg-sage-light text-primary'
+                  : 'border-border bg-background text-text-secondary hover:border-primary/40'
               }`}
             >
               <input
@@ -268,7 +268,7 @@ export default function TaskForm({ onClose, taskToEdit }: TaskFormProps) {
           type="submit"
           className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
         >
-          {taskToEdit ? "Guardar cambios" : "Crear tarea"}
+          {taskToEdit ? 'Guardar cambios' : 'Crear tarea'}
         </button>
       </div>
     </form>

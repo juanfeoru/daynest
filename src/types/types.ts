@@ -1,8 +1,8 @@
-export type Priority = "baja" | "media" | "alta";
+export type Priority = 'baja' | 'media' | 'alta';
 
-export type ListId = "personal" | "work" | "ideas";
+export type ListId = 'personal' | 'work' | 'ideas';
 
-export type TaskStatus = "pendiente" | "atrasada" | "completada";
+export type TaskStatus = 'pendiente' | 'atrasada' | 'completada';
 
 export interface CustomList {
   id: string;

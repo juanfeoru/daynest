@@ -1,6 +1,6 @@
-import { createContext } from "react";
-import type { CustomList } from "../types/types";
-import type { ListsAction } from "../reducers/listsReducer";
+import { createContext } from 'react';
+import type { CustomList } from '../types/types';
+import type { ListsAction } from '../reducers/listsReducer';
 
 type ListsContextValue = {
   lists: CustomList[];

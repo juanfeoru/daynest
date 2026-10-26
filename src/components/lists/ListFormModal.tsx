@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { X } from "lucide-react";
-import type { CustomList } from "../../types/types";
-import { useLists } from "../../hooks/useLists";
+import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import type { CustomList } from '../../types/types';
+import { useLists } from '../../hooks/useLists';
 
 interface ListFormModalProps {
   onClose: () => void;
@@ -9,12 +9,12 @@ interface ListFormModalProps {
 }
 
 const colors = [
-  "#E9BBA8",
-  "#A8B9D3",
-  "#F0DFA7",
-  "#B8CDB5",
-  "#D0B8DB",
-  "#E6A5AD",
+  '#E9BBA8',
+  '#A8B9D3',
+  '#F0DFA7',
+  '#B8CDB5',
+  '#D0B8DB',
+  '#E6A5AD',
 ];
 
 export default function ListFormModal({
@@ -23,21 +23,21 @@ export default function ListFormModal({
 }: ListFormModalProps) {
   const { dispatchLists } = useLists();
 
-  const [name, setName] = useState(listToEdit?.name ?? "");
+  const [name, setName] = useState(listToEdit?.name ?? '');
   const [color, setColor] = useState(listToEdit?.color ?? colors[0]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         onClose();
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
 
@@ -46,7 +46,7 @@ export default function ListFormModal({
 
     const trimmedName = name.trim();
 
-    const nameError = trimmedName ? "" : "Escribe un nombre para la lista.";
+    const nameError = trimmedName ? '' : 'Escribe un nombre para la lista.';
 
     setError(nameError);
 
@@ -56,7 +56,7 @@ export default function ListFormModal({
 
     if (listToEdit) {
       dispatchLists({
-        type: "RENAME_LIST",
+        type: 'RENAME_LIST',
         payload: {
           id: listToEdit.id,
           name: trimmedName,
@@ -71,7 +71,7 @@ export default function ListFormModal({
       };
 
       dispatchLists({
-        type: "ADD_LIST",
+        type: 'ADD_LIST',
         payload: newList,
       });
     }
@@ -93,7 +93,7 @@ export default function ListFormModal({
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold text-text-primary">
-              {listToEdit ? "Editar lista" : "Crear una lista"}
+              {listToEdit ? 'Editar lista' : 'Crear una lista'}
             </h2>
             <p className="mt-1 text-sm text-text-secondary">
               Organiza tus tareas a tu manera.
@@ -148,8 +148,8 @@ export default function ListFormModal({
                 onClick={() => setColor(option)}
                 className={`size-8 rounded-full border-2 transition ${
                   color === option
-                    ? "scale-110 border-text-primary"
-                    : "border-transparent"
+                    ? 'scale-110 border-text-primary'
+                    : 'border-transparent'
                 }`}
                 style={{ backgroundColor: option }}
               />
@@ -170,7 +170,7 @@ export default function ListFormModal({
             type="submit"
             className="rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
           >
-            {listToEdit ? "Editar lista" : "Crear lista"}
+            {listToEdit ? 'Editar lista' : 'Crear lista'}
           </button>
         </div>
       </form>

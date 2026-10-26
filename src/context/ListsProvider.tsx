@@ -1,12 +1,12 @@
-import { useEffect, useReducer } from "react";
-import { listsReducer } from "../reducers/listsReducer";
-import { listsSeed } from "../data/lists";
-import { ListsContext } from "./ListsContext";
-import type { CustomList } from "../types/types";
+import { useEffect, useReducer } from 'react';
+import { listsReducer } from '../reducers/listsReducer';
+import { listsSeed } from '../data/lists';
+import { ListsContext } from './ListsContext';
+import type { CustomList } from '../types/types';
 
 function loadLists(): CustomList[] {
   try {
-    const storedLists = localStorage.getItem("daynest-lists");
+    const storedLists = localStorage.getItem('daynest-lists');
 
     if (storedLists === null) return listsSeed;
 
@@ -22,9 +22,9 @@ function loadLists(): CustomList[] {
 
 function saveLists(lists: CustomList[]) {
   try {
-    localStorage.setItem("daynest-lists", JSON.stringify(lists));
+    localStorage.setItem('daynest-lists', JSON.stringify(lists));
   } catch (error) {
-    console.error("Error al guardar las listas:", error);
+    console.error('Error al guardar las listas:', error);
   }
 }
 

@@ -1,7 +1,7 @@
-import { useOutletContext, useParams } from "react-router";
-import TaskList from "../components/tasks/TaskList";
-import { useLists } from "../hooks/useLists";
-import type { Task } from "../types/types";
+import { useOutletContext, useParams } from 'react-router';
+import TaskList from '../components/tasks/TaskList';
+import { useLists } from '../hooks/useLists';
+import type { Task } from '../types/types';
 
 interface LayoutContext {
   onEditTask: (task: Task) => void;

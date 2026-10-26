@@ -1,6 +1,6 @@
-import { useOutletContext } from "react-router";
-import TaskList from "../components/tasks/TaskList";
-import type { Task } from "../types/types";
+import { useOutletContext } from 'react-router';
+import TaskList from '../components/tasks/TaskList';
+import type { Task } from '../types/types';
 
 interface OutletContext {
   onEditTask: (task: Task) => void;
