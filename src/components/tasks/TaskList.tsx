@@ -1,15 +1,15 @@
-import { CircleCheck } from "lucide-react";
-import TaskItem from "./TaskItem";
-import type { TaskGroup } from "../../data/seed";
-import { useTasks } from "../../hooks/useTasks";
+import { CircleCheck } from 'lucide-react';
+import TaskItem from './TaskItem';
+import type { TaskGroup } from '../../data/seed';
+import { useTasks } from '../../hooks/useTasks';
 import {
   formatTaskGroupDate,
   getTodayDate,
   getTomorrowDate,
-} from "../../utils/date";
-import type { Task } from "../../types/types";
+} from '../../utils/date';
+import type { Task } from '../../types/types';
 
-type TaskFilter = "today" | "upcoming" | "all" | "completed" | "list";
+type TaskFilter = 'today' | 'upcoming' | 'all' | 'completed' | 'list';
 
 interface TaskListProps {
   title?: string;
@@ -33,15 +33,15 @@ export default function TaskList({
   const today = getTodayDate();
 
   const visibleTasks = tasks.filter((task) => {
-    if (filter === "completed") {
+    if (filter === 'completed') {
       return task.completed;
     }
 
-    if (filter === "list") {
+    if (filter === 'list') {
       return task.listId === listId && !task.completed;
     }
 
-    if (filter === "all" && !task.completed) {
+    if (filter === 'all' && !task.completed) {
       return true;
     }
 
@@ -49,11 +49,11 @@ export default function TaskList({
       return false;
     }
 
-    if (filter === "today") {
+    if (filter === 'today') {
       return task.date === today;
     }
 
-    if (filter === "upcoming") {
+    if (filter === 'upcoming') {
       return task.date > today;
     }
 
@@ -61,25 +61,29 @@ export default function TaskList({
   });
 
   const groups: TaskGroup[] =
-    filter === "upcoming"
+    filter === 'upcoming'
       ? [...new Set(visibleTasks.map((task) => task.date))]
           .sort()
           .map((date) => ({
             title:
-              date === getTomorrowDate() ? "Mañana" : formatTaskGroupDate(date),
+              date === getTomorrowDate() ? 'Mañana' : formatTaskGroupDate(date),
             tasks: visibleTasks.filter((task) => task.date === date),
           }))
-      : filter === "today"
-        ? [{ title: "Hoy", tasks: visibleTasks }]
-        : filter === "list"
-          ? [{ title: "Tareas", tasks: visibleTasks }]
+      : filter === 'today'
+        ? [{ title: 'Hoy', tasks: visibleTasks }]
+        : filter === 'list'
+          ? [{ title: 'Tareas', tasks: visibleTasks }]
           : [
               {
-                title: "Hoy",
+                title: 'Vencidas',
+                tasks: visibleTasks.filter((task) => task.date < today),
+              },
+              {
+                title: 'Hoy',
                 tasks: visibleTasks.filter((task) => task.date === today),
               },
               {
-                title: "Próximas",
+                title: 'Próximas',
                 tasks: visibleTasks.filter((task) => task.date > today),
               },
             ];
@@ -91,7 +95,7 @@ export default function TaskList({
 
   function handleDeleteTask(id: string) {
     dispatch({
-      type: "DELETE_TASK",
+      type: 'DELETE_TASK',
       payload: { id },
     });
   }
@@ -127,7 +131,7 @@ export default function TaskList({
         </div>
 
         <span className="shrink-0 rounded-lg bg-sage-light px-2.5 py-1.5 text-xs font-medium text-[#496348]">
-          {totalTasks} {totalTasks === 1 ? "tarea" : "tareas"}
+          {totalTasks} {totalTasks === 1 ? 'tarea' : 'tareas'}
         </span>
       </header>
 
@@ -164,7 +168,7 @@ export default function TaskList({
                   completed={task.completed}
                   onToggle={(id) =>
                     dispatch({
-                      type: "TOGGLE_TASK",
+                      type: 'TOGGLE_TASK',
                       payload: { id },
                     })
                   }
